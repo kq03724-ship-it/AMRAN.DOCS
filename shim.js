@@ -89,14 +89,12 @@
   document.addEventListener('click', function (e) { if (e.target.closest && e.target.closest('#lo')) window.__logout(); }, true);
 })();
 
-/* PWA: makes the site installable as an app */
+/* Icon only: link icon (no installable app) */
 ;(function(){try{
 var h=document.head;
 function L(r,a){var e=document.createElement('link');e.rel=r;for(var k in a)e.setAttribute(k,a[k]);h.appendChild(e);return e}
-L('manifest',{href:'manifest.webmanifest'});
+L('icon',{href:'icon.svg',type:'image/svg+xml'});
 var ai=L('apple-touch-icon',{href:'icon.svg'});
 var im=new Image();im.onload=function(){try{var c=document.createElement('canvas');c.width=c.height=180;c.getContext('2d').drawImage(im,0,0,180,180);ai.setAttribute('href',c.toDataURL('image/png'))}catch(e){}};im.src='icon.svg';
-var m=document.createElement('meta');m.name='mobile-web-app-capable';m.content='yes';h.appendChild(m);
-var m2=document.createElement('meta');m2.name='apple-mobile-web-app-capable';m2.content='yes';h.appendChild(m2);
-if('serviceWorker' in navigator)addEventListener('load',function(){navigator.serviceWorker.register('sw.js',{scope:'./'}).catch(function(){})});
+if('serviceWorker' in navigator){navigator.serviceWorker.getRegistrations().then(function(r){r.forEach(function(x){x.unregister()})}).catch(function(){});if(window.caches)caches.keys().then(function(k){k.forEach(function(n){if(n.indexOf('amran-docs')===0)caches.delete(n)})}).catch(function(){})}
 }catch(e){}})();
