@@ -88,3 +88,15 @@
   window.__admin = async function (action, body) { var r = await sb.functions.invoke('admin-users', { body: Object.assign({ action: action }, body) }); if (r.error) throw r.error; if (r.data && r.data.error) throw new Error(r.data.error); return r.data; };
   document.addEventListener('click', function (e) { if (e.target.closest && e.target.closest('#lo')) window.__logout(); }, true);
 })();
+
+/* PWA: makes the site installable as an app */
+;(function(){try{
+var h=document.head;
+function L(r,a){var e=document.createElement('link');e.rel=r;for(var k in a)e.setAttribute(k,a[k]);h.appendChild(e);return e}
+L('manifest',{href:'manifest.webmanifest'});
+var ai=L('apple-touch-icon',{href:'icon.svg'});
+var im=new Image();im.onload=function(){try{var c=document.createElement('canvas');c.width=c.height=180;c.getContext('2d').drawImage(im,0,0,180,180);ai.setAttribute('href',c.toDataURL('image/png'))}catch(e){}};im.src='icon.svg';
+var m=document.createElement('meta');m.name='mobile-web-app-capable';m.content='yes';h.appendChild(m);
+var m2=document.createElement('meta');m2.name='apple-mobile-web-app-capable';m2.content='yes';h.appendChild(m2);
+if('serviceWorker' in navigator)addEventListener('load',function(){navigator.serviceWorker.register('sw.js',{scope:'./'}).catch(function(){})});
+}catch(e){}})();
